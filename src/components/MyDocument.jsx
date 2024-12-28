@@ -35,37 +35,59 @@ const MyDocument = ({ billTo, items, cgst, sgst, subtotal, total, sgstAmount,cgs
   const renderItemsForPage = (pageIndex, itemsPerPage) => {
     const startIdx = pageIndex * itemsPerPage;
     const endIdx = Math.min(startIdx + itemsPerPage, items.length);
-    const padding = items.length > 16 ? 8 : 6; // Increase padding if more than 16 items
-
-    return items.slice(startIdx, endIdx).map((item, idx) => (
-      <View key={idx} style={styles.tableRow}>
-        <Text style={{ ...styles.tableCell,borderRight: '1px solid black',  padding, width: 40, textAlign: 'center' }}>
-          {startIdx + idx + 1}
-        </Text>
-        <Text style={{ ...styles.tableCell,borderRight: '1px solid black', padding, width: 150, textAlign: 'center' }} >
-          {item.description}
-        </Text>
-        <Text style={{ ...styles.tableCell,borderRight: '1px solid black', padding, width: 100, textAlign: 'center' }} >
-          {item.hsnCode}
-        </Text>
-        <Text style={{ ...styles.tableCell,borderRight: '1px solid black',  padding, width: 80, textAlign: 'center' }} >
-          {item.quantity}
-        </Text>
-        <Text style={{ ...styles.tableCell,borderRight: '1px solid black',  fontFamily:'NotoSans',padding, width: 100, textAlign: 'center' }} >
-          ₹{Number.isFinite(Number(item.rate)) ? Number(item.rate).toFixed(2) : 'N/A'}
-        </Text>
-        <Text style={{ ...styles.tableCell, padding, width: 100,fontFamily:'NotoSans', textAlign: 'center' }} >
-          ₹{Number.isFinite(Number(item.amount)) ? Number(item.amount).toFixed(2) : '0.00'}
-        </Text>
-      </View>
-    ));
+  
+    return items.slice(startIdx, endIdx).map((item, idx) => {
+      // Calculate padding based on whether the row belongs to a page before the current page
+      const padding = pageIndex !== currentPage ? 8 : 4; // Use larger padding for pages before the current page
+  
+      return (
+        <View key={idx} style={styles.tableRow}>
+          <Text style={{ ...styles.tableCell, borderRight: '1px solid black', padding, width: 40, textAlign: 'center' }}>
+            {startIdx + idx + 1}
+          </Text>
+          <Text style={{ ...styles.tableCell, borderRight: '1px solid black', padding, width: 150, textAlign: 'center' }}>
+            {item.description}
+          </Text>
+          <Text style={{ ...styles.tableCell, borderRight: '1px solid black', padding, width: 100, textAlign: 'center' }}>
+            {item.hsnCode}
+          </Text>
+          <Text style={{ ...styles.tableCell, borderRight: '1px solid black', padding, width: 80, textAlign: 'center' }}>
+            {item.quantity}
+          </Text>
+          <Text
+            style={{
+              ...styles.tableCell,
+              borderRight: '1px solid black',
+              fontFamily: 'NotoSans',
+              padding,
+              width: 100,
+              textAlign: 'center',
+            }}
+          >
+            ₹{Number.isFinite(Number(item.rate)) ? Number(item.rate).toFixed(2) : 'N/A'}
+          </Text>
+          <Text
+            style={{
+              ...styles.tableCell,
+              padding,
+              width: 100,
+              fontFamily: 'NotoSans',
+              textAlign: 'center',
+            }}
+          >
+            ₹{Number.isFinite(Number(item.amount)) ? Number(item.amount).toFixed(2) : '0.00'}
+          </Text>
+        </View>
+      );
+    });
   };
+  
   
   const renderHeader = () => (
     <View
       style={[
         styles.header(fontSize),
-        items.length > 16 ? { marginBottom: 30 } : {}, // Apply marginTop if more than 16 items
+        items.length > 16 ? { marginBottom: 20 } : {}, // Apply marginTop if more than 16 items
       ]}
     >
       <View>
@@ -181,7 +203,7 @@ const MyDocument = ({ billTo, items, cgst, sgst, subtotal, total, sgstAmount,cgs
   <View
     style={[
       styles.customerInfo,
-      items.length > 16 ? { marginBottom:40 } : {}, // Apply marginTop if more than 16 items
+      items.length > 16 ? { marginBottom:60 } : {}, // Apply marginTop if more than 16 items
     ]}
   >
     <Text style={styles.sectionTitle}>Bill To:</Text>
@@ -191,7 +213,7 @@ const MyDocument = ({ billTo, items, cgst, sgst, subtotal, total, sgstAmount,cgs
         <Text style={{ fontSize: 12, marginTop: 5 }}>Mobile No: {billTo.mobileNo}</Text>
       </View>
       <View>
-        <Text style={{ fontSize: 12, width: 250, marginTop: 5 }}>ADDRESS: {billTo.address}</Text>
+        <Text style={{ fontSize: 12,width: 250, marginTop: 5 }}>ADDRESS: {billTo.address}</Text>
         <Text style={{ fontSize: 12, marginTop: 5 }}>GSTIN:{billTo.gstin}</Text>
       </View>
     </View>
