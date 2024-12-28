@@ -92,8 +92,8 @@ const ItemForm = () => {
     const subtotal = calculateSubtotal();
     const cgstAmount = (parseFloat(cgst) || 0) / 100 * subtotal;
     const sgstAmount = (parseFloat(sgst) || 0) / 100 * subtotal;
-    console.log(cgstAmount)
-    console.log(sgstAmount)
+    // console.log(cgstAmount)
+    // console.log(sgstAmount)
     return subtotal + cgstAmount + sgstAmount;
   };
 
@@ -130,7 +130,7 @@ const ItemForm = () => {
       // Step 2: Check if an invoice with the same invoice number exists
       if (!querySnapshot.empty) {
         // If invoice exists, show a notification and redirect or handle accordingly
-        toast.error('EInvoice with this number already exists!', {
+        toast.error('Invoice with this number already exists!', {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -145,7 +145,7 @@ const ItemForm = () => {
         const docRef = doc(firestore, 'invoices', invoiceNumber);  // Use invoiceNumber as the document ID
         await setDoc(docRef, formData);  // Use setDoc to create or overwrite the document
         
-        console.log("Document written with ID: ", docRef.id);
+        // console.log("Document written with ID: ", docRef.id);
         toast.success('Invoice successfully added!', {
           position: "top-right",
           autoClose: 5000,

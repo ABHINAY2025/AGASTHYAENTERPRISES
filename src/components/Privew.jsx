@@ -16,10 +16,10 @@ function Privew() {
   }
   const { billTo, items, cgst, sgst, subtotal, total,cgstAmount,sgstAmount, invoiceDetails } = formData;
 
-  console.log(formData);
+//   console.log(formData);
 
 const Totalwords = toWords(total).toUpperCase();;
-console.log("words"+Totalwords)
+// console.log("words"+Totalwords)
   return (
     <div style={{ textAlign: "center", marginTop: "20px" }}>
       <h1>PDF Example in React</h1>

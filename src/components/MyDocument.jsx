@@ -39,19 +39,19 @@ const MyDocument = ({ billTo, items, cgst, sgst, subtotal, total, sgstAmount,cgs
 
     return items.slice(startIdx, endIdx).map((item, idx) => (
       <View key={idx} style={styles.tableRow}>
-        <Text style={{ ...styles.tableCell,  padding, width: 40, textAlign: 'center' }}>
+        <Text style={{ ...styles.tableCell,borderRight: '1px solid black',  padding, width: 40, textAlign: 'center' }}>
           {startIdx + idx + 1}
         </Text>
-        <Text style={{ ...styles.tableCell, padding, width: 150, textAlign: 'center' }} >
+        <Text style={{ ...styles.tableCell,borderRight: '1px solid black', padding, width: 150, textAlign: 'center' }} >
           {item.description}
         </Text>
-        <Text style={{ ...styles.tableCell, padding, width: 100, textAlign: 'center' }} >
+        <Text style={{ ...styles.tableCell,borderRight: '1px solid black', padding, width: 100, textAlign: 'center' }} >
           {item.hsnCode}
         </Text>
-        <Text style={{ ...styles.tableCell,  padding, width: 80, textAlign: 'center' }} >
+        <Text style={{ ...styles.tableCell,borderRight: '1px solid black',  padding, width: 80, textAlign: 'center' }} >
           {item.quantity}
         </Text>
-        <Text style={{ ...styles.tableCell,  fontFamily:'NotoSans',padding, width: 100, textAlign: 'center' }} >
+        <Text style={{ ...styles.tableCell,borderRight: '1px solid black',  fontFamily:'NotoSans',padding, width: 100, textAlign: 'center' }} >
           ₹{Number.isFinite(Number(item.rate)) ? Number(item.rate).toFixed(2) : 'N/A'}
         </Text>
         <Text style={{ ...styles.tableCell, padding, width: 100,fontFamily:'NotoSans', textAlign: 'center' }} >
