@@ -21,7 +21,7 @@ Font.register({
 const styles = {
   page: {
     flexDirection: "column",
-    paddingVertical:30,
+    paddingVertical:10,
     paddingHorizontal:40,
     fontFamily: "Helvetica",
     height: "100%",

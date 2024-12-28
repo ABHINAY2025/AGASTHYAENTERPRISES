@@ -15,11 +15,12 @@ const PageWithWatermark = ({ children, watermarkUrl }) => (
 
 const MyDocument = ({ billTo, items, cgst, sgst, subtotal, total, sgstAmount,cgstAmount,invoiceDetails, watermarkUrl,Totalwords }) => {
   const fontSize = 10;
-  const itemsPerPage = 16;
+  const itemsPerPage = 15;
   
   // Calculate total items and pages
   const totalItems = items.length;
   const totalPages = Math.ceil((totalItems + (totalItems > 0 ? 1 : 0)) / itemsPerPage);
+  
 
   const renderTableHeader = () => (
     <View style={[styles.tableRow, styles.tableHeader]}>
@@ -33,6 +34,9 @@ const MyDocument = ({ billTo, items, cgst, sgst, subtotal, total, sgstAmount,cgs
   );
 
   const renderItemsForPage = (pageIndex, itemsPerPage) => {
+
+    
+
     const startIdx = pageIndex * itemsPerPage;
     const endIdx = Math.min(startIdx + itemsPerPage, items.length);
   
@@ -87,7 +91,7 @@ const MyDocument = ({ billTo, items, cgst, sgst, subtotal, total, sgstAmount,cgs
     <View
       style={[
         styles.header(fontSize),
-        items.length > 16 ? { marginBottom: 20 } : {}, // Apply marginTop if more than 16 items
+        // items.length > 16 ? { marginBottom: 20 } : {}, // Apply marginTop if more than 16 items
       ]}
     >
       <View>
@@ -133,9 +137,9 @@ const MyDocument = ({ billTo, items, cgst, sgst, subtotal, total, sgstAmount,cgs
     <View style={styles.subtotalSection(fontSize)}>
       <View style={{flexDirection:'row', fontSize:12, justifyContent:'space-between'}}>
         <View style={{flexDirection:'column', marginTop:8}}>
-          <Text>Amount In Words:</Text>
-          <Text style={{textDecoration:'underline', width:250}}>{Totalwords} RUPEES ONLY</Text> 
-          <View style={{marginTop:8, paddingBottom:2}}>
+          <Text style={{fontSize:10}}>Amount In Words:</Text>
+          <Text style={{fontSize:10,textDecoration:'underline', width:250}}>{Totalwords} RUPEES ONLY</Text> 
+          <View style={{marginTop:8, paddingBottom:2,fontSize:10}}>
               <Text style={{paddingBottom:2}}>ACCOUNT DETAILS:</Text>
               <Text style={{paddingBottom:2}}>Bank: FEDERAL BANK</Text>
               <Text style={{paddingBottom:2}}>A/C No: 16720200005119</Text>
@@ -188,53 +192,74 @@ const MyDocument = ({ billTo, items, cgst, sgst, subtotal, total, sgstAmount,cgs
   // Generate pages
   const pages = [];
   let currentPage = 0;
+  let pageIndex = 0; 
   let remainingItems = [...items];
 
   while (remainingItems.length > 0) {
     const pageItems = remainingItems.slice(0, itemsPerPage);
     const isLastPage = remainingItems.length <= itemsPerPage;
+    const isCurrentPage = currentPage === 0;
     
+  
     pages.push(
       <PageWithWatermark key={currentPage} watermarkUrl={watermarkUrl}>
         {renderHeader()}
-        
-        <View style={styles.contentWrapper}>
-        {currentPage === 0 && (
-  <View
-    style={[
-      styles.customerInfo,
-      items.length > 16 ? { marginBottom:60 } : {}, // Apply marginTop if more than 16 items
-    ]}
-  >
-    <Text style={styles.sectionTitle}>Bill To:</Text>
-    <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-between' }}>
-      <View>
-        <Text style={{ fontSize: 12, marginTop: 5 }}>NAME: {billTo.name}</Text>
-        <Text style={{ fontSize: 12, marginTop: 5 }}>Mobile No: {billTo.mobileNo}</Text>
-      </View>
-      <View>
-        <Text style={{ fontSize: 12,width: 250, marginTop: 5 }}>ADDRESS: {billTo.address}</Text>
-        <Text style={{ fontSize: 12, marginTop: 5 }}>GSTIN:{billTo.gstin}</Text>
-      </View>
-    </View>
-  </View>
-)}
-          <View style={styles.section(fontSize)}>
-            <View style={styles.table(fontSize)}>
-              {renderTableHeader()}
-              {renderItemsForPage(currentPage, itemsPerPage)}
+  
+        <View
+          style={[
+            styles.contentWrapper,
+            !isCurrentPage && styles.centeredPage, // Center pages before the current page
+          ]}
+        >
+          {isCurrentPage && (
+            <View
+              style={[
+                styles.customerInfo,
+                items.length > 16 ? { marginBottom: 60 } : {}, // Apply marginBottom dynamically
+              ]}
+            >
+              <Text style={styles.sectionTitle}>Bill To:</Text>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  width: '100%',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <View>
+                  <Text style={{ fontSize: 12, marginTop: 5 }}>NAME: {billTo.name}</Text>
+                  <Text style={{ fontSize: 12, marginTop: 5 }}>Mobile No: {billTo.mobileNo}</Text>
+                </View>
+                <View>
+                  <Text style={{ fontSize: 12, width: 250, marginTop: 5 }}>ADDRESS: {billTo.address}</Text>
+                  <Text style={{ fontSize: 12, marginTop: 5 }}>GSTIN: {billTo.gstin}</Text>
+                </View>
+              </View>
             </View>
-          </View>
-
+          )}
+  <View
+  style={[
+    styles.section(fontSize),
+    currentPage !== pageIndex && styles.centeredPage, // Apply centering for non-current pages
+  ]}
+>
+  <View style={styles.table(fontSize)}>
+    {renderTableHeader()}
+    {renderItemsForPage(pageIndex, itemsPerPage)} {/* Use pageIndex here */}
+  </View>
+</View>
           {isLastPage && renderSubtotalSection()}
-        </View>
+</View>
+  
         {renderFooter()}
       </PageWithWatermark>
     );
-
+  
     remainingItems = remainingItems.slice(itemsPerPage);
     currentPage++;
+    pageIndex++;
   }
+  
 
   return <Document>{pages}</Document>;
 };

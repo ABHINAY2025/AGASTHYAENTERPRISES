@@ -21,10 +21,9 @@ function Privew() {
 const Totalwords = toWords(total).toUpperCase();;
 // console.log("words"+Totalwords)
   return (
-    <div style={{ textAlign: "center", marginTop: "20px" }}>
-      <h1>PDF Example in React</h1>
+    <div className='flex justify-center m-10'>
       {/* PDFViewer renders the PDF in a viewer */}
-      <PDFViewer width="100%" height="600">
+      <PDFViewer width="50%" height="800">
         <MyDocument
           billTo={billTo}
           items={items}
