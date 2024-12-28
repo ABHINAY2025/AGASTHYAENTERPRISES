@@ -2,20 +2,21 @@ import {  Font } from "@react-pdf/renderer";
 
 Font.register({
   family: "Outfit-Bold",
-  src: "./public/fonts/Outfit-Bold.ttf"
+  src: "/fonts/Outfit-Bold.ttf" // Correct path for the 'public' folder
 });
 Font.register({
   family: "Outfit-Regular",
-  src: "./public/fonts/Outfit-Regular.ttf"
+  src: "/fonts/Outfit-Regular.ttf"
 });
 Font.register({
   family: "NotoSans",
-  src: "./public/fonts/NotoSans_ExtraCondensed-Regular.ttf"
+  src: "/fonts/NotoSans_ExtraCondensed-Regular.ttf"
 });
 Font.register({
   family: "times",
-  src: "./public/fonts/Tinos-Regular.ttf"
+  src: "/fonts/Tinos-Regular.ttf"
 });
+
 
 const styles = {
   page: {
